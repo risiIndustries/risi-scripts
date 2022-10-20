@@ -31,7 +31,7 @@ run:
     dnf copr enable g3tchoo/prismlauncher -y
 
     echo "Installing Prism"
-    dnf install -y prism-launcher
+    dnf install -y prismlauncher
     
     echo "Removing PolyMC Directory"
     rm -rf ~/.local/share/PolyMC
@@ -40,5 +40,5 @@ run:
       - "rpm -q polymc && echo installed || echo uninstalled"
       - "uninstalled"
     - COMMANDOUTPUTCONTAINS:
-      - "rpm -q prism-launcher && echo packageinstalled || echo uninstalled"
+      - "rpm -q prismlauncher && echo packageinstalled || echo uninstalled"
       - "packageinstalled"
