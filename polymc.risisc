@@ -1,0 +1,43 @@
+#!/bin/risiscript
+metadata:
+  name: "PolyMC to Prism Migration"
+  id: "io.risi.polytoprism"
+  description: "Sets up an environment for gaming."
+  dependencies:
+  	None
+  root: True
+  one_time_use: True
+  risiscript_version: 1.0
+  reboot: False
+
+run:
+	init:
+		warning:
+			- WARNING
+			- "Warning"
+			- "We recommend backing up your PolyMC instances before running this script,\nin case something goes wrong"
+
+  bash: |
+  	echo "Moving PolyMC Instances to Prism"
+  	cp -a ~/.local/share/PolyMC ~/.local/share/PrismLauncher
+  	
+  	echo "Removing PolyMC"
+  	dnf remove polymc -y
+
+  	echo "Disabling PolyMC copr"
+  	dnf copr disable sentry/polymc -y
+
+  	echo "Enabling PrismLauncher copr"
+  	dnf copr enable g3tchoo/prismlauncher -y
+
+		echo "Installing Prism"
+    dnf install -y prism-launcher
+    
+  	rpm -q prism-launcher && rm -rf ~/.local/share/PolyMC || echo "Prism installed successfully, removed
+  checks:
+    - COMMANDOUTPUTCONTAINS:
+      - "rpm -q polymc && echo installed || echo uninstalled"
+      - "uninstalled"
+    - COMMANDOUTPUTCONTAINS:
+      - "rpm -q prism-launcher && echo packageinstalled || echo uninstalled"
+      - "packageinstalled"
